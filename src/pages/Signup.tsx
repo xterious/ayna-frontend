@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 export default function Signup() {
-  const { setToken } = useAuth();
+  const { login } = useAuth(); // Use login instead of setToken
   const [message, setMessage] = useState<string | null>(null);
   const navigate = useNavigate();
 
@@ -33,7 +33,9 @@ export default function Signup() {
         jsonData
       );
 
-      setToken(response.data.jwt);
+      // Use the login function to set the token and user
+      await login({ identifier: jsonData.email, password });
+
       setMessage("User registered successfully");
       setTimeout(() => navigate("/home"), 1500);
     } catch (error) {
